@@ -1,1 +1,24 @@
+{
+  "primary": [
+    {"name": "اللغة العربية الصف الأول", "file": "arabic1.pdf"},
+    {"name": "اللغة الإنجليزية الصف الأول", "file": "english1.pdf"},
+    {"name": "التربية الإسلامية الصف الأول", "file": "islam1.pdf"},
+    {"name": "الرياضيات الصف الثاني", "file": "math2.pdf"},
+    {"name": "العلوم الصف الثالث", "file": "science3.pdf"}
+  ],
 
+  "middle": [
+    {"name": "العربية أول متوسط", "file": "arabic_m1.pdf"},
+    {"name": "الإنجليزية أول متوسط", "file": "english_m1.pdf"},
+    {"name": "الرياضيات أول متوسط", "file": "math_m1.pdf"},
+    {"name": "العلوم أول متوسط", "file": "natural_science_m1.pdf"}
+  ],
+
+  "secondary": [
+    {"name": "اللغة العربية أدب أول ثانوي", "file": "arabic_adab_s1.pdf"},
+    {"name": "التاريخ أول ثانوي", "file": "history_s1.pdf"},
+    {"name": "الرياضيات أول ثانوي", "file": "math_s1.pdf"},
+    {"name": "الحاسوب ثالث ثانوي", "file": "computer_s3.pdf"},
+    {"name": "الرياضيات ثالث ثانوي", "file": "math_s3.pdf"}
+  ]
+}
