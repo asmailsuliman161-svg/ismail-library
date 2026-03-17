@@ -2,9 +2,7 @@
 <html lang="ar">
 
 <head>
-
 <meta charset="UTF-8">
-
 <title>مكتبة إسماعيل سليمان حسن التعليمية</title>
 
 <style>
@@ -24,6 +22,17 @@ text-align:center;
 font-size:28px;
 }
 
+.search{
+text-align:center;
+margin:15px;
+}
+
+input{
+width:80%;
+padding:10px;
+font-size:16px;
+}
+
 section{
 padding:20px;
 }
@@ -32,6 +41,7 @@ h2{
 background:#198754;
 color:white;
 padding:10px;
+border-radius:5px;
 }
 
 .book{
@@ -41,6 +51,7 @@ padding:10px;
 border-radius:6px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 }
 
 a{
@@ -58,34 +69,33 @@ border-radius:4px;
 <body>
 
 <header>
-
 📚 مكتبة إسماعيل سليمان حسن التعليمية
-
 </header>
+
+<div class="search">
+<input type="text" id="search" placeholder="🔍 ابحث عن كتاب...">
+</div>
 
 <section>
 
 <h2>المرحلة الابتدائية</h2>
-
 <div id="primary"></div>
 
 <h2>المرحلة المتوسطة</h2>
-
 <div id="middle"></div>
 
 <h2>المرحلة الثانوية</h2>
-
 <div id="secondary"></div>
 
 </section>
 
 <script>
 
-fetch("books.json")
+let allBooks=[];
 
-.then(response => response.json())
-
-.then(data => {
+fetch("./books.json")
+.then(res=>res.json())
+.then(data=>{
 
 function show(stage,id){
 
@@ -93,8 +103,9 @@ let container=document.getElementById(id);
 
 data[stage].forEach(book=>{
 
-let div=document.createElement("div");
+allBooks.push(book);
 
+let div=document.createElement("div");
 div.className="book";
 
 div.innerHTML=
@@ -108,15 +119,29 @@ container.appendChild(div);
 }
 
 show("primary","primary");
-
 show("middle","middle");
-
 show("secondary","secondary");
+
+});
+
+// البحث
+document.getElementById("search").addEventListener("input",function(){
+
+let value=this.value.toLowerCase();
+
+let books=document.querySelectorAll(".book");
+
+books.forEach(b=>{
+if(b.innerText.toLowerCase().includes(value)){
+b.style.display="flex";
+}else{
+b.style.display="none";
+}
+});
 
 });
 
 </script>
 
 </body>
-
 </html>
