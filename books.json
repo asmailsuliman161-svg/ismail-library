@@ -4,21 +4,33 @@
     {"name": "اللغة الإنجليزية الصف الأول", "file": "english1.pdf"},
     {"name": "التربية الإسلامية الصف الأول", "file": "islam1.pdf"},
     {"name": "الرياضيات الصف الثاني", "file": "math2.pdf"},
-    {"name": "العلوم الصف الثالث", "file": "science3.pdf"}
+    {"name": "العلوم الصف الثالث", "file": "science3.pdf"},
+    {"name": "العربية الصف الثالث", "file": "arabic_m3.pdf"},
+    {"name": "English الصف الثالث", "file": "English3.pdf"},
+    {"name": "الإسلام الصف الثاني", "file": "islam2.pdf"},
+    {"name": "الإسلام الصف الثالث", "file": "islam3.pdf"}
   ],
 
   "middle": [
     {"name": "العربية أول متوسط", "file": "arabic_m1.pdf"},
     {"name": "الإنجليزية أول متوسط", "file": "english_m1.pdf"},
     {"name": "الرياضيات أول متوسط", "file": "math_m1.pdf"},
-    {"name": "العلوم أول متوسط", "file": "natural_science_m1.pdf"}
+    {"name": "الرياضيات ثاني متوسط", "file": "math_m2.pdf"},
+    {"name": "العلوم أول متوسط", "file": "natural_science_m1.pdf"},
+    {"name": "العلوم ثاني متوسط", "file": "natural_science_m2.pdf"},
+    {"name": "الجغرافيا أول متوسط", "file": "geography_m1.pdf"},
+    {"name": "الجغرافيا ثاني متوسط", "file": "geography_m2.pdf"},
+    {"name": "التاريخ أول متوسط", "file": "history_m1.pdf"},
+    {"name": "التاريخ ثاني متوسط", "file": "history_m2.pdf"},
+    {"name": "الإسلام ثاني متوسط", "file": "islam_m2.pdf"}
   ],
 
   "secondary": [
-    {"name": "اللغة العربية أدب أول ثانوي", "file": "arabic_adab_s1.pdf"},
-    {"name": "التاريخ أول ثانوي", "file": "history_s1.pdf"},
     {"name": "الرياضيات أول ثانوي", "file": "math_s1.pdf"},
+    {"name": "الرياضيات ثالث ثانوي 1", "file": "math1_s3.pdf"},
+    {"name": "الرياضيات ثالث ثانوي 2", "file": "math2_s3.pdf"},
     {"name": "الحاسوب ثالث ثانوي", "file": "computer_s3.pdf"},
-    {"name": "الرياضيات ثالث ثانوي", "file": "math_s3.pdf"}
+    {"name": "اللغة العربية أدب أول ثانوي", "file": "arabic_adab_s1.pdf"},
+    {"name": "التاريخ أول ثانوي", "file": "history_s1.pdf"}
   ]
 }
