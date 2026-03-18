@@ -1,1 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>مكتبة إسماعيل سليمان حسن</title>
 
+<style>
+body {
+    font-family: Tahoma;
+    background: #f4f6f9;
+    text-align: center;
+}
+
+h1 { color: #0d6efd; }
+
+img {
+    border-radius: 50%;
+    margin: 20px;
+    border: 3px solid #0d6efd;
+}
+
+select, input {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.book {
+    background: white;
+    margin: 10px;
+    padding: 15px;
+    width: 220px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.book a {
+    display: block;
+    margin: 5px;
+    padding: 6px;
+    background: #0d6efd;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📚 مكتبة إسماعيل سليمان حسن</h1>
+
+<img src="images/ismail_photo.jpg" width="120">
+
+<br>
+
+<input type="text" id="searchInput" placeholder="🔍 ابحث عن مادة...">
+
+<select id="typeSelect">
+  <option value="">كل الأنواع</option>
+  <option value="كتاب">📘 كتاب</option>
+  <option value="امتحان">📝 امتحان</option>
+  <option value="ملخص">📄 ملخص</option>
+  <option value="فيديو">🎥 فيديو</option>
+</select>
+
+<br>
+
+<select id="stageSelect">
+<option value="">اختر المرحلة</option>
+<option value="ابتدائي">ابتدائي</option>
+<option value="متوسط">متوسط</option>
+<option value="ثانوي">ثانوي</option>
+</select>
+
+<select id="gradeSelect">
+<option value="">اختر الصف</option>
+</select>
+
+<select id="subjectSelect">
+<option value="">اختر المادة</option>
+</select>
+
+<div class="books-container" id="books"></div>
+
+<script>
+let data = [];
+
+fetch('books.json')
+.then(res => res.json())
+.then(json => {
+    data = json;
+});
+
+const stage = document.getElementById('stageSelect');
+const grade = document.getElementById('gradeSelect');
+const subject = document.getElementById('subjectSelect');
+
+stage.onchange = () => {
+    grade.innerHTML = '<option value="">اختر الصف</option>';
+    subject.innerHTML = '<option value="">اختر المادة</option>';
+
+    let grades = [...new Set(data.filter(b => b.مرحلة === stage.value).map(b => b.صف))];
+
+    grades.forEach(g=>{
+        let o = document.createElement('option');
+        o.value = g;
+        o.textContent = g;
+        grade.appendChild(o);
+    });
+};
+
+grade.onchange = () => {
+    subject.innerHTML = '<option value="">اختر المادة</option>';
+
+    let subs = [...new Set(data
+        .filter(b => b.مرحلة===stage.value && b.صف===grade.value)
+        .map(b => b.مادة))];
+
+    subs.forEach(s=>{
+        let o = document.createElement('option');
+        o.value = s;
+        o.textContent = s;
+        subject.appendChild(o);
+    });
+
+    show();
+};
+
+subject.onchange = show;
+document.getElementById('typeSelect').onchange = show;
+document.getElementById('searchInput').oninput = show;
+
+function show() {
+    let box = document.getElementById('books');
+    box.innerHTML = '';
+
+    let filtered = data.filter(b =>
+        (!stage.value || b.مرحلة===stage.value) &&
+        (!grade.value || b.صف===grade.value) &&
+        (!subject.value || b.مادة===subject.value) &&
+        (!typeSelect.value || b.نوع===typeSelect.value) &&
+        b.مادة.toLowerCase().includes(searchInput.value.toLowerCase())
+    );
+
+    if(filtered.length===0){
+        box.innerHTML = "❌ لا توجد نتائج";
+        return;
+    }
+
+    filtered.forEach(b=>{
+        let div = document.createElement('div');
+        div.className='book';
+
+        div.innerHTML=`
+        <p>${b.مادة}</p>
+        <small>${b.نوع} - ${b.سنة}</small>
+        <a href="${b.رابط}" target="_blank">📖 فتح</a>
+        <a href="${b.رابط}" download>⬇️ تحميل</a>
+        `;
+
+        box.appendChild(div);
+    });
+}
+</script>
+
+</body>
+</html>
