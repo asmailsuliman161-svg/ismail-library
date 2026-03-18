@@ -1,1 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>مكتبة إسماعيل سليمان حسن - احترافية</title>
+<style>
+    body {
+        font-family: Tahoma, sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
 
+    h1 {
+        color: #0d6efd;
+        margin-bottom: 10px;
+    }
+
+    img {
+        border-radius: 50%;
+        margin: 20px 0;
+        border: 3px solid #0d6efd;
+    }
+
+    select {
+        padding: 8px 12px;
+        margin: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .filter-container {
+        margin: 20px 0;
+    }
+
+    .books-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .book {
+        background: white;
+        width: 220px;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .book:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    }
+
+    .book p {
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+    }
+
+    .book a {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 8px 12px;
+        background-color: #0d6efd;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.2s;
+    }
+
+    .book a:hover {
+        background-color: #084298;
+    }
+
+    /* ألوان حسب المرحلة */
+    .ابتدائي { border-top: 4px solid #5bc0de; }
+    .متوسط { border-top: 4px solid #28a745; }
+    .ثانوي { border-top: 4px solid #fd7e14; }
+
+    /* قائمة المواد */
+    .subject-select {
+        padding: 6px 10px;
+        margin-top: 10px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    @media(max-width: 600px){
+        .books-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .book { width: 90%; }
+    }
+</style>
+</head>
+<body>
+
+<h1>مرحبًا بكم في مكتبة إسماعيل سليمان حسن</h1>
+<img src="images/ismail_photo.jpg" alt="صورة إسماعيل سليمان حسن" width="150">
+
+<div class="filter-container">
+    <label>اختر المرحلة:</label>
+    <select id="stageSelect">
+        <option value="">-- اختر المرحلة --</option>
+        <option value="ابتدائي">ابتدائي</option>
+        <option value="متوسط">متوسط</option>
+        <option value="ثانوي">ثانوي</option>
+    </select>
+
+    <label>اختر الصف:</label>
+    <select id="gradeSelect">
+        <option value="">-- اختر الصف --</option>
+    </select>
+
+    <label>اختر المادة:</label>
+    <select id="subjectSelect" class="subject-select">
+        <option value="">-- كل المواد --</option>
+    </select>
+</div>
+
+<div class="books-container" id="books"></div>
+
+<script>
+let allData = [];
+fetch('books.json')
+.then(response => response.json())
+.then(data => {
+    allData = data;
+    const stageSelect = document.getElementById('stageSelect');
+    const gradeSelect = document.getElementById('gradeSelect');
+    const subjectSelect = document.getElementById('subjectSelect');
+    const booksDiv = document.getElementById('books');
+
+    function updateGrades() {
+        const selectedStage = stageSelect.value;
+        gradeSelect.innerHTML = '<option value="">-- اختر الصف --</option>';
+        subjectSelect.innerHTML = '<option value="">-- كل المواد --</option>';
+        booksDiv.innerHTML = '';
+
+        if (!selectedStage) return;
+
+        const grades = [...new Set(allData.filter(b => b.مرحلة === selectedStage).map(b => b.صف))];
+        grades.forEach(g => {
+            const option = document.createElement('option');
+            option.value = g;
+            option.textContent = g;
+            gradeSelect.appendChild(option);
+        });
+    }
+
+    function updateSubjects() {
+        const selectedStage = stageSelect.value;
+        const selectedGrade = gradeSelect.value;
+        subjectSelect.innerHTML = '<option value="">-- كل المواد --</option>';
+        booksDiv.innerHTML = '';
+
+        if (!selectedStage || !selectedGrade) return;
+
+        const subjects = [...new Set(allData.filter(b => b.مرحلة === selectedStage && b.صف === selectedGrade).map(b => b.مادة))];
+        subjects.forEach(s => {
+            const option = document.createElement('option');
+            option.value = s;
+            option.textContent = s;
+            subjectSelect.appendChild(option);
+        });
+
+        showBooks();
+    }
+
+    function showBooks() {
+        const selectedStage = stageSelect.value;
+        const selectedGrade = gradeSelect.value;
+        const selectedSubject = subjectSelect.value;
+        booksDiv.innerHTML = '';
+
+        const filteredBooks = allData.filter(b => 
+            b.مرحلة === selectedStage &&
+            b.صف === selectedGrade &&
+            (selectedSubject ? b.مادة === selectedSubject : true)
+        );
+
+        filteredBooks.forEach(book => {
+            const div = document.createElement('div');
+            div.className = `book ${selectedStage}`;
+            div.innerHTML = `
+                <p>${book.مادة} - ${book.نوع} (${book.سنة})</p>
+                <a href="${book.رابط}" target="_blank">تحميل الكتاب</a>
+            `;
+            booksDiv.appendChild(div);
+        });
+    }
+
+    stageSelect.addEventListener('change', updateGrades);
+    gradeSelect.addEventListener('change', updateSubjects);
+    subjectSelect.addEventListener('change', showBooks);
+});
+</script>
+
+</body>
+</html>
