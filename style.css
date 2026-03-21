@@ -15,3 +15,25 @@ img {
     align-items: center;
     z-index: 9999;
 }
+#splash img {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+#splash h2 {
+    margin: 10px 0;
+    font-size: 22px;
+}
+
+#splash p {
+    font-size: 16px;
+    opacity: 0.8;
+} 
+#splash img {
+    animation: zoom 1.5s infinite alternate;
+}
+
+@keyframes zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
